@@ -29,7 +29,8 @@ namespace BankAccountMenegment.Repository
             {
                 if (us.Email == email && us.Password == password)
                 {
-                    return true;
+                    us.IsLogged = true;
+                    return us.IsLogged;
                 }
             }
             return false;

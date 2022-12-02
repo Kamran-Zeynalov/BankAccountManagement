@@ -11,7 +11,7 @@ namespace BankAccountMenegment.Base
     internal class Bank
     {
         public int Id;
-        public User[] Users;
+        public User[] Users; 
         int _count;
         public Bank(User[] user)
         {
