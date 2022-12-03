@@ -15,18 +15,23 @@ namespace BankAccountMenegment.Repository
         {
             _bank = new Bank();
         }
-        public void BankUserList(User user)
+        public void BankUserList()
         {
+            foreach (User user in _bank.Users)
+            {
+                Console.WriteLine(user.Name, user.SurName);
+            }
         }
 
-        public void BlockUser(User user)
+        public bool BlockUser(User user)
         {
-            
+            return user.IsBlocked = true; 
         }
 
-        public void ChangePassword(User user, string password2)
+        public string ChangePassword(User user, string password2)
         {
-
+            user.Password = password2;
+            return user.Password;
         }
 
         public void CheckBalance(User user)
@@ -34,17 +39,14 @@ namespace BankAccountMenegment.Repository
             Console.WriteLine(user.Balance);
         }
 
-        public void TopUpBalance(User user, double newBalance)
+        public void TopUpBalance(User user)
         {
-            
+            Console.WriteLine(user.Balance);
         }
 
-        static void UserAdmin(User user)
+        public bool LogOut(User user)
         {
-            if (user.IsAdmin == true)
-            { 
-            
-            }
+            return user.IsLogged = false;
         }
     }
 }

@@ -17,41 +17,37 @@ namespace BankAccountMenegment.Service
             _userRepository = new AccountRepository();
         }
 
-        public bool? Registration(string name, string surname, string email, string password, bool isadmin)
+        public bool? Registration(string name, string surname, string email, string password, bool isAdmin)
         {
 
             foreach (User mail in _userRepository.Bank.Users)
             {
                 if (mail.Email == email)
                 {
-
                     return false;
                 }
             }
-            User user = new User(name, surname, email, password, isadmin);
+            User user = new User(name, surname, email, password, isAdmin);
             return true;
-
         }
 
-        public bool FindUser(string email, string password)
+        public bool FindUser(string email)
         {
-            User exicted = default;
+            User exicted = null;
             foreach (User mail in _userRepository.Bank.Users)
             {
                 if (mail.Email == email)
                 {
                     exicted = mail;
+                    return true;
                 }
             }
-             
-            if (exicted == null)
-            {
-                return false;
-            }
+     
             _userRepository.FindUser(exicted);
             return true;
         }
-        bool FindEmailandPass(string email, string password)
+
+        bool FindEmailandPw(string email, string password)
         {
             foreach (User user in _userRepository.Bank.Users)
             {
@@ -65,19 +61,14 @@ namespace BankAccountMenegment.Service
 
         public bool Login(string email, string password)
         {
-            FindEmailandPass(email, password);
-            if (FindEmailandPass(email, password) == true)
+            FindEmailandPw(email, password);
+            if (FindEmailandPw(email, password) == true)
             {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
             _userRepository.UserLogin(email, password);
             return true;
+            }
+             return false;
         }
     }
+}
 
-}
-}

@@ -30,7 +30,7 @@ namespace BankAccountMenegment.Base
             get
             {
                 return _name;
-            }  
+            }
             set
             {
                 if (value.Length >= 3)
@@ -53,7 +53,7 @@ namespace BankAccountMenegment.Base
                 }
             }
         }
-        public string Email
+        public string Email 
         {
             get
             {
@@ -90,6 +90,9 @@ namespace BankAccountMenegment.Base
             Email = email;
             Password = password;
             Id = ++_count;
+            IsAdmin = isAdmin;
+            IsBlocked = isBlocked;
+            IsLogged = isLogged;
 
         }
 

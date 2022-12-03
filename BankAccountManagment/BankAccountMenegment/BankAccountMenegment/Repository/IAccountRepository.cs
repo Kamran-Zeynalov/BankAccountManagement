@@ -11,9 +11,8 @@ namespace BankAccountMenegment.Repository
     {
         public Bank Bank { get; }
 
-        void UserRegist( string name, string surName, string email, string password);
+        void UserRegist( string name, string surName, string email, string password, bool isAdmin);
         bool UserLogin( string email, string password);
         void FindUser( User user); 
-
     }
 }

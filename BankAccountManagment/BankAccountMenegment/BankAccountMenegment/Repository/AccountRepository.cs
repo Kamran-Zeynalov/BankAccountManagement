@@ -16,7 +16,7 @@ namespace BankAccountMenegment.Repository
             _bank = new Bank();
         }
 
-        public void UserRegist(string name, string surName, string email, string password)
+        public void UserRegist(string name, string surName, string email, string password, bool isAdmin)
         {
             User user = new User(name, surName, email, password);
             Array.Resize(ref _bank.Users, _bank.Users.Length+ 1);
@@ -25,12 +25,12 @@ namespace BankAccountMenegment.Repository
 
         public bool UserLogin(string email, string password)
         {
-            foreach (User us in _bank.Users)
+            foreach (User user1 in _bank.Users)
             {
-                if (us.Email == email && us.Password == password)
+                if (user1.Email == email && user1.Password == password)
                 {
-                    us.IsLogged = true;
-                    return us.IsLogged;
+                    user1.IsLogged = true;
+                    return user1.IsLogged;
                 }
             }
             return false;
@@ -53,5 +53,4 @@ namespace BankAccountMenegment.Repository
             }
         }
     }
-
 }
