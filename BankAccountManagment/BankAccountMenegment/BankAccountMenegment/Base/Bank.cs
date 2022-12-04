@@ -11,14 +11,13 @@ namespace BankAccountMenegment.Base
     internal class Bank
     {
         public int Id;
-        public User[] Users; 
-        int _count;
-        public Bank(User[] user)
+        public User[] Users = new User[0]; 
+        static int _count;
+        public Bank()
         {
-            Users = new User[0];
             Id = ++_count;
         }
-        public Bank()
+        static Bank()
         {
             _count = 1423;
         }

@@ -10,47 +10,33 @@ namespace BankAccountMenegment.Repository
     internal class AccountRepository : IAccountRepository
     {
         Bank _bank;
-        public Bank Bank { get => _bank; }
+        public Bank Bank { get => _bank;}
         public AccountRepository()
         {
             _bank = new Bank();
         }
 
-        public void UserRegist(string name, string surName, string email, string password, bool isAdmin)
+        public void UserRegist(User user)
         {
-            User user = new User(name, surName, email, password);
-            Array.Resize(ref _bank.Users, _bank.Users.Length+ 1);
-            _bank.Users[_bank.Users.Length - 1] = user;
+            Array.Resize(ref Bank.Users, Bank.Users.Length+ 1);
+            Bank.Users[Bank.Users.Length - 1] = user;
+            Console.WriteLine("You are registered");
+            Thread.Sleep(1000);
+            user.Balance = 0;
         }
 
-        public bool UserLogin(string email, string password)
+        public void UserLogin(User user)
         {
-            foreach (User user1 in _bank.Users)
-            {
-                if (user1.Email == email && user1.Password == password)
-                {
-                    user1.IsLogged = true;
-                    return user1.IsLogged;
-                }
-            }
-            return false;
+            user.IsLogged = true;
+            Console.WriteLine($"{user.Name}, {user.SurName}");
+            Thread.Sleep(1000);
+
         }
 
         public void FindUser(User user)
         {
-           
-            if (user is not null)
-            {
-                foreach (User users in _bank.Users)
-                {
-                    Console.WriteLine(users);
-                }
-            }
-            else
-            {
-
-                Console.WriteLine("There is no User!");
-            }
+            Console.WriteLine($"User: {user.Name}, Surname: {user.SurName}");
+            Thread.Sleep(1000);
         }
     }
 }

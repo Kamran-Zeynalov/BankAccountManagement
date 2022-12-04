@@ -10,12 +10,12 @@ namespace BankAccountMenegment.Base
 {
     internal class User
     {
-        public int Id { get; }
+        public int Id;
         int _count;
         string _name;
-        string _email;
         string _surName;
-        public double Balance;
+        string _email;
+        double _balance;
         string _password;
         public bool IsAdmin;
         public bool IsBlocked;
@@ -53,7 +53,7 @@ namespace BankAccountMenegment.Base
                 }
             }
         }
-        public string Email 
+        public string Email
         {
             get
             {
@@ -82,7 +82,19 @@ namespace BankAccountMenegment.Base
             }
         }
 
-        public User(string name, string surName, string email, string password, bool isAdmin = false,bool isBlocked = false, bool isLogged = false)
+        public double Balance
+        {
+            get
+            {
+                return _balance;
+            }
+            set
+            {
+                _balance = value;
+            }
+        }
+
+        public User(string name, string surName, string email, string password, bool isAdmin = false)
         {
 
             Name = name;
@@ -90,9 +102,9 @@ namespace BankAccountMenegment.Base
             Email = email;
             Password = password;
             Id = ++_count;
-            IsAdmin = isAdmin;
-            IsBlocked = isBlocked;
-            IsLogged = isLogged;
+            IsAdmin = false;
+            IsBlocked = false;
+            IsLogged = false;
 
         }
 

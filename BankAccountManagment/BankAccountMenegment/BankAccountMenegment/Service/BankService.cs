@@ -19,21 +19,26 @@ namespace BankAccountMenegment.Service
 
         public bool CheckBalance(string password)
         {
-            foreach (User userList  in _bankRepository.Bank.Users)
+            foreach (User userList in _bankRepository.Bank.Users)
             {
-                if ( userList.Password == password)
+                if (userList.Password == password)
                 {
+                    Console.Write("Balance");
                     _bankRepository.CheckBalance(userList);
+                    Thread.Sleep(2000);
+
                     return true;
                 }
             }
+            Console.WriteLine("Sehf");
+            Thread.Sleep(2000);
             return false;
         }
         public bool TopUpBalance(string password, double newBalance)
         {
             foreach (User user1 in _bankRepository.Bank.Users)
             {
-                if (user1.Password== password )
+                if (user1.Password == password)
                 {
                     user1.Balance = newBalance;
                     _bankRepository.TopUpBalance(user1);
@@ -44,7 +49,7 @@ namespace BankAccountMenegment.Service
         }
         public bool ChangePassword(string pastPw, string newPw)
         {
-            User exicted;
+            User exicted = default;
             foreach (User pw in _bankRepository.Bank.Users)
             {
                 if (pw.Password == pastPw)
@@ -63,13 +68,10 @@ namespace BankAccountMenegment.Service
             {
                 if (userr.Email == email)
                 {
-                    if (userr.IsAdmin == true)
-                    {
+
                         existed = userr;
                         _bankRepository.BlockUser(existed);
                         return true;
-                    }
-                    return false;
                 }
             }
             return false;
@@ -87,7 +89,7 @@ namespace BankAccountMenegment.Service
             {
                 if (userr.Email == email)
                 {
-                    if (userr.IsAdmin== true)
+                    if (userr.IsAdmin == true)
                     {
                         result = userr;
                         _bankRepository.BankUserList();
@@ -95,7 +97,7 @@ namespace BankAccountMenegment.Service
                     }
                     return false;
                 }
-        }
+            }
             return false;
         }
     }

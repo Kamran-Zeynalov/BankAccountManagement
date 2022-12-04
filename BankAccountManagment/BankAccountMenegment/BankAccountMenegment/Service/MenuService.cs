@@ -25,10 +25,6 @@ namespace BankAccountMenegment.Service
         {
             string name;
             string surname;
-            string email;
-            string password;
-            bool isAdmin =false;
-            string admin;
 
             do
             {
@@ -40,6 +36,7 @@ namespace BankAccountMenegment.Service
             }
             while (!NameandSurnameChecker(name, surname));
 
+            string email;
             do
             {
                 Console.Write("Email: ");
@@ -47,6 +44,7 @@ namespace BankAccountMenegment.Service
             }
             while (!CheckEmail(email));
 
+            string password;
             do
             {
                 Console.Write("Password: ");
@@ -54,17 +52,24 @@ namespace BankAccountMenegment.Service
             }
             while (!CheckPassword(password));
 
-            admin = Console.ReadLine();
 
-            if (admin.ToLower() == "y")
+            User admin;
+
+            string Admin = null;
+            bool isAdmin = false;
+
+            Console.WriteLine("Are you Admin? y/n");
+            Admin = Console.ReadLine();
+
+
+            if (Admin == "y")
             {
                 isAdmin = true;
             }
-            else if (admin.ToLower() == "n")
-            { 
-            isAdmin= false; 
+            else if (Admin == "n")
+            {
+                isAdmin = false;
             }
-
             _userService.Registration(name, surname, email, password, isAdmin);
         }
         #endregion
@@ -73,7 +78,7 @@ namespace BankAccountMenegment.Service
         public static void Login()
         {
             string email;
-            string password; 
+            string password;
 
             do
             {
@@ -81,7 +86,7 @@ namespace BankAccountMenegment.Service
                 email = Console.ReadLine();
                 Console.WriteLine("Enter your password");
                 password = Console.ReadLine();
-            } while (!_userService.Login(email, password));
+            } while (!_userService.Login(email,password));
         }
         #endregion
 
@@ -91,13 +96,15 @@ namespace BankAccountMenegment.Service
             string email;
             do
             {
+                Console.WriteLine("Enter user's email"); 
                 email = Console.ReadLine();
-            } while (!_userService.FindUser(email));
+            } while (!_userService.FindUser(email)); 
+
         }
         #endregion
 
         #region Change Password
-        public static void ChanegePassword()
+        public static void ChangePassword()
         {
             string password;
             string newPassword;
@@ -117,8 +124,9 @@ namespace BankAccountMenegment.Service
             string password;
             do
             {
+                Console.WriteLine("Enter password for check balance");
                 password = Console.ReadLine();
-            } while (!_bankService.CheckBalance(password));
+            } while (_bankService.CheckBalance(password));
         }
 
         #endregion
@@ -144,17 +152,17 @@ namespace BankAccountMenegment.Service
                 Console.WriteLine("All User List");
                 email = Console.ReadLine();
             } while (!_bankService.UserList(email));
-            
+
         }
 
         public static void BlockUser()
-        { 
-        UserList();
-            string email ;
+        {
+            UserList();
+            string email;
             do
             {
-                Console.WriteLine("Do Block someone");
-               email = Console.ReadLine();
+                Console.WriteLine("Block someone");
+                email = Console.ReadLine();
             } while (!_bankService.BlockUser(email));
         }
 
@@ -191,25 +199,29 @@ namespace BankAccountMenegment.Service
             bool hasUpper = false;
             bool result = false;
 
-            foreach (char item in password)
+            if (password.Length > 8)
             {
+                foreach (char item in password)
+                {
 
-                if (char.IsDigit(item))
-                {
-                    hasDigit = true;
-                }
-                else if (char.IsLower(item))
-                {
-                    hasLower = true;
-                }
-                else if (char.IsUpper(item))
-                {
-                    hasUpper = true;
-                }
-                result = hasDigit && hasLower && hasUpper;
-                if (result)
-                {
-                    break;
+                    if (char.IsDigit(item))
+                    {
+                        hasDigit = true;
+                    }
+                    else if (char.IsLower(item))
+                    {
+                        hasLower = true;
+                    }
+                    else if (char.IsUpper(item))
+                    {
+                        hasUpper = true;
+                    }
+
+                    result = hasDigit && hasLower && hasUpper;
+                    if (result)
+                    {
+                        break;
+                    }
                 }
             }
             return result;

@@ -36,6 +36,7 @@ namespace BankAccountMenegment.Repository
 
         public void CheckBalance(User user)
         {
+            Console.WriteLine("Repooo");
             Console.WriteLine(user.Balance);
         }
 
