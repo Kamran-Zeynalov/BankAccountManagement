@@ -32,8 +32,7 @@ namespace BankAccountMenegment.Repository
 
         public bool BlockUser(User user)
         {
-            user.IsBlocked = true;
-            return true;
+            return user.IsBlocked = true;
         }
 
         public string ChangePassword(User user, string newPassword)
@@ -43,10 +42,9 @@ namespace BankAccountMenegment.Repository
             return user.Password;
         }
 
-        public void CheckBalance(double balance)
+        public void CheckBalance(User user)
         {
-            Console.WriteLine(balance);
-            Thread.Sleep(2000);
+            Console.WriteLine(user.Balance);
         }
 
         public void ToUpBalance(User user, double amount)

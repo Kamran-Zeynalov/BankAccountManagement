@@ -132,33 +132,49 @@ namespace BankAccountMenegment.Service
             } while (!_bankservices.ChangePassword(password, newpassword));
 
         }
-        public static bool CheckBalans()
+        public static void CheckBalans()
         {
             string password;
+            string balance;
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Enter password to view balance");
             password = Console.ReadLine();
+            Console.WriteLine("    Balance:");
+
             if (_bankservices.CheckBalance(password))
             {
-                return true;
+                Console.Write("Loading");
+                Thread.Sleep(1000);
+                Console.Write("  .");
+                Thread.Sleep(1000);
+                Console.Write("  .");
+                Thread.Sleep(1000);
+                Console.Write("  .");
             }
-            return false;
+          
         }
 
         public static void TopUpBalance()
         {
             string password;
             double newBalance;
-            do
-            {
+       
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Enter email to top up balance");
+                Console.WriteLine("Enter password to top up balance");
                 password = Console.ReadLine();
                 Console.WriteLine("How much you want to increase");
                 newBalance = Convert.ToDouble(Console.ReadLine());
-            }
-            while (_bankservices.TopUpBalance(password, newBalance));
 
+            if (_bankservices.TopUpBalance(password, newBalance))
+            {
+                Console.Write("Loading");
+                Thread.Sleep(1000);
+                Console.Write("  .");
+                Thread.Sleep(1000);
+                Console.Write("  .");
+                Thread.Sleep(1000);
+                Console.Write("  .");
+            }
         }
         public static void UserList()
         {
@@ -291,8 +307,6 @@ namespace BankAccountMenegment.Service
             } while (UserServiceSelect != '0');
         }
 
-
-
         public static void AllServicess()
         {
 
@@ -315,30 +329,37 @@ namespace BankAccountMenegment.Service
                 {
                     case '1':
                         MenuService.CheckBalans();
+                        Thread.Sleep(1000);
                         Console.Clear();
                         break;
                     case '2':
                         MenuService.TopUpBalance();
+                        Thread.Sleep(1000);
                         Console.Clear();
                         break;
                     case '3':
                         MenuService.ChangePassword();
+                        Thread.Sleep(1000);
                         Console.Clear();
                         break;
                     case '4':
                         MenuService.UserList();
+                        Thread.Sleep(1000);
                         Console.Clear();
                         break;
                     case '5':
                         MenuService.BlockUser();
+                        Thread.Sleep(1000);
                         Console.Clear();
                         break;
                     case '6':
                         MenuService.Logout();
+                        Thread.Sleep(1000);
                         Console.Clear();
                         break;
                     default:
                         Console.WriteLine("Please choose correct number");
+                        Thread.Sleep(1000);
                         Console.Clear();
                         goto selection1;
                 }

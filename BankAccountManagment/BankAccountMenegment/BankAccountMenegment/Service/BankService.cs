@@ -31,15 +31,13 @@ namespace BankAccountMenegment.Service
             {
                 if (item.Password == password)
                 {
-                    double balance = 0.0;
-                    _repository.CheckBalance(balance);
+                    double balance = 0;
+                    _repository.CheckBalance(item);
                     return true;
                 }
             }
             return false;
         }
-
-
 
         public bool TopUpBalance(string password, double newBal)
         {
@@ -47,7 +45,6 @@ namespace BankAccountMenegment.Service
             {
                 if (item.Password == password)
                 {
-
                     _repository.ToUpBalance(item, newBal);
                     return true;
                 }
@@ -85,6 +82,7 @@ namespace BankAccountMenegment.Service
                         exicted = item;
                         _repository.BankUserList();
                         return true;
+                        Thread.Sleep(2000);
                     }
                     return false;
                 }
@@ -102,6 +100,7 @@ namespace BankAccountMenegment.Service
                 {
                     exicted = item;
                     _repository.BlockUser(exicted);
+                    Console.WriteLine($"Has Been Blocked: {item.Name}");
                     return true;
                 }
             }
