@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace BankAccountMenegment.Repository
 {
-    internal interface IAccountRepository
+    internal interface IUserRepositories
     {
-        public Bank Bank { get; }
+        void UserRegistration(User user);
 
-        void UserRegist( User user);
-        void UserLogin( User user);
-        void FindUser( User user); 
+        void UserLogin(User user);
+
+        void FindUser(User user);
     }
 }

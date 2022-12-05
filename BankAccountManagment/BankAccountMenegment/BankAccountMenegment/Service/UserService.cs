@@ -10,66 +10,88 @@ namespace BankAccountMenegment.Service
 {
     internal class UserService
     {
-        readonly IAccountRepository _userRepository;
-
-        public UserService()
+        readonly IUserRepositories _repository;
+        Bank bank;
+        public UserService(Bank bank)
         {
-            _userRepository = new AccountRepository();
+            this.bank = bank;
+            _repository = new UserRepository(this.bank);
         }
 
-        public bool Registration(string name, string surname, string email, string password, bool isAdmin)
+        public bool UserRegistration(string name, string surname, string email, string password, bool isAdmin)
         {
-
-            foreach (User mail in _userRepository.Bank.Users)
+            foreach (User gmail in bank.users)
             {
-                if (mail.Email == email)
+                if (gmail.Email == email)
                 {
-                    Console.WriteLine(" This account was registered");
-                    Thread.Sleep(1000);
+                    Console.WriteLine("This email had been registered ");
+                    Thread.Sleep(2000);
                     Console.Clear();
-                    MenuService.UserRegistrstion();
+                    MenuService.Registration();
                     return false;
                 }
             }
-            User user = new(name, surname, email, password, isAdmin);
-            _userRepository.UserRegist(user);
+            User user = new User(name, surname, email, password, isAdmin);
+            _repository.UserRegistration(user);
             return true;
+
         }
+
+        public bool UserLogin(string email, string password)
+        {
+            foreach (User item in bank.users)
+            {
+                if (item.Email == email && item.Password == password)
+                {
+                    _repository.UserLogin(item);
+
+                    MenuService.AllServicess();
+                    return true;
+                }
+            }
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Email or password is incorrect");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Thread.Sleep(2000);
+            return false;
+
+        }
+
 
         public bool FindUser(string email)
         {
-            User exicted;
-            foreach (User mail in _userRepository.Bank.Users)
+            User exicted = default;
+            foreach (User gmail in bank.users)
             {
-                if (mail.Email == email)
+                if (gmail.Email == email)
                 {
-                    exicted = mail;
-                    _userRepository.FindUser(exicted);
-                    return true;
-                   // Thread.Sleep(1000);
+                    exicted = gmail;
+                    _repository.FindUser(exicted);
+                    return false;
                 }
             }
-            Console.WriteLine("User wasn't Found");
-            return false;
-
-        }
-
-        public bool Login(string email, string password)
-        {
-            foreach (User user in _userRepository.Bank.Users)
+            if (exicted == null)
             {
-                if (user.Email == email && user.Password == password)
-                {
-                    _userRepository.UserLogin(user);
-                    return true;
-                }
+                Console.WriteLine("--This email is not registered--");
+                return false;
             }
-            Console.WriteLine("Result Not Found");
+            Console.WriteLine("Not Found");
+            _repository.FindUser(exicted);
             return false;
-            MenuService.Login();
-            Thread.Sleep(2000);
-            Console.Clear();
         }
+        //bool EmailPassFind(string email, string password)
+        //{
+        //    foreach (User user in bank.users)
+        //    {
+        //        if (user.Email == email && user.Password == password)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
+
     }
 }
+
 

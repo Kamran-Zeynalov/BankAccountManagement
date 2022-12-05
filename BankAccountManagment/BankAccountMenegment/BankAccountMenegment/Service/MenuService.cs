@@ -8,223 +8,341 @@ using System.Threading.Tasks;
 
 namespace BankAccountMenegment.Service
 {
-    internal class MenuService
+
+    internal static class MenuService
     {
-        readonly static BankService _bankService;
-        readonly static UserService _userService;
+        readonly static BankService _bankservices;
+
+        readonly static UserService _accountservice;
+
+        static Bank myBank;
 
         static MenuService()
         {
-            _bankService = new BankService();
-            _userService = new UserService();
+
+            myBank = new Bank();
+
+            _bankservices = new BankService(myBank);
+
+            _accountservice = new UserService(myBank);
+
         }
-
-
-        #region User Registration
-        public static void UserRegistrstion()
+        public static void Registration()
         {
+
             string name;
-            string surname;
-
             do
             {
-                Console.WriteLine("Create account:");
-                Console.Write("Name: ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Name:");
                 name = Console.ReadLine();
-                Console.Write("Surname: ");
+            } while (!NameChecker(name));
+
+            string surname;
+            do
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Surname:");
                 surname = Console.ReadLine();
-            }
-            while (!NameandSurnameChecker(name, surname));
+            } while (!SurnameChecker(surname));
+
 
             string email;
             do
             {
-                Console.Write("Email: ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Email:");
                 email = Console.ReadLine();
-            }
-            while (!CheckEmail(email));
+
+            } while (!EmailChecker(email));
 
             string password;
             do
             {
-                Console.Write("Password: ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Password:");
                 password = Console.ReadLine();
-            }
-            while (!CheckPassword(password));
 
+            } while (!CheckPassword(password));
 
-            User admin;
+            bool isadmin;
+            char yesOrNo;
 
-            string Admin = null;
-            bool isAdmin = false;
-
-            Console.WriteLine("Are you Admin? y/n");
-            Admin = Console.ReadLine();
-
-
-            if (Admin == "y")
+            do
             {
-                isAdmin = true;
-            }
-            else if (Admin == "n")
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Is admin? y/n");
+                isadmin = char.TryParse(Console.ReadLine(), out yesOrNo);
+            } while (!isadmin);
+
+
+            if (yesOrNo.ToString().ToLower() == 'y'.ToString())
             {
-                isAdmin = false;
+                _accountservice.UserRegistration(name, surname, password, email, true);
             }
-            _userService.Registration(name, surname, email, password, isAdmin);
+            else
+            {
+                _accountservice.UserRegistration(name, surname, password, email, false);
+            }
         }
-        #endregion
-
-        #region User Login
-        public static void Login()
+        public static bool Login()
         {
+
             string email;
             string password;
 
             do
             {
-                Console.WriteLine("Enter your Email");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Email:");
                 email = Console.ReadLine();
-                Console.WriteLine("Enter your password");
+                Console.WriteLine("Password:");
                 password = Console.ReadLine();
-            } while (!_userService.Login(email,password));
-        }
-        #endregion
+            } while (_accountservice.UserLogin(email, password));
 
-        #region Find User
-        public static void FindUser()
+            return true;
+        }
+
+        public static bool FindUser()
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             string email;
-            do
+            Console.WriteLine("Enter the email address of the person you are looking for");
+            email = Console.ReadLine();
+            if (_accountservice.FindUser(email))
             {
-                Console.WriteLine("Enter user's email"); 
-                email = Console.ReadLine();
-            } while (!_userService.FindUser(email)); 
-
+                return true;
+            }
+            return false;
         }
-        #endregion
 
-        #region Change Password
         public static void ChangePassword()
         {
             string password;
-            string newPassword;
-
+            string newpassword;
             do
             {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Past Password");
                 password = Console.ReadLine();
-                newPassword = Console.ReadLine();
-                CheckPassword(newPassword);
-            } while (!_bankService.ChangePassword(password, newPassword));
-        }
-        #endregion
+                Console.WriteLine("New Password");
+                newpassword = Console.ReadLine();
+                CheckPassword(newpassword);
 
-        #region Check Balance
-        public static void CheckBalance()
+            } while (!_bankservices.ChangePassword(password, newpassword));
+
+        }
+        public static bool CheckBalans()
         {
             string password;
-            do
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Enter password to view balance");
+            password = Console.ReadLine();
+            if (_bankservices.CheckBalance(password))
             {
-                Console.WriteLine("Enter password for check balance");
-                password = Console.ReadLine();
-            } while (_bankService.CheckBalance(password));
+                return true;
+            }
+            return false;
         }
 
-        #endregion
-
-        #region Top Up Balance
         public static void TopUpBalance()
         {
             string password;
             double newBalance;
             do
             {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Enter email to top up balance");
                 password = Console.ReadLine();
-                newBalance = Convert.ToInt32(Console.ReadLine());
-            } while (!_bankService.TopUpBalance(password, newBalance));
-        }
-        #endregion
+                Console.WriteLine("How much you want to increase");
+                newBalance = Convert.ToDouble(Console.ReadLine());
+            }
+            while (_bankservices.TopUpBalance(password, newBalance));
 
+        }
         public static void UserList()
         {
             string email;
             do
             {
-                Console.WriteLine("All User List");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("admin's email");
                 email = Console.ReadLine();
-            } while (!_bankService.UserList(email));
+
+
+            } while (!_bankservices.BankUserList(email));
 
         }
-
         public static void BlockUser()
         {
             UserList();
             string email;
             do
             {
-                Console.WriteLine("Block someone");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Enter the slant you want to block");
                 email = Console.ReadLine();
-            } while (!_bankService.BlockUser(email));
+            } while (!_bankservices.BlockUser(email));
         }
-
-
-
-        static bool CheckEmail(string mail)
+        static bool NameChecker(string name)
         {
-            if (mail.Contains('@') == true)
+            if (name.Length > 2)
             {
                 return true;
             }
-            else
-            {
-                Console.WriteLine("Use @ symbol");
-            }
             return false;
         }
-        static bool NameandSurnameChecker(string name, string surname)
+
+
+        static bool SurnameChecker(string surname)
         {
-            if (name.Length >= 3 && surname.Length >= 3)
+            if (surname.Length > 2)
             {
                 return true;
             }
-            else
-            {
-                Console.WriteLine("Use another Name and Surname");
-            }
+
             return false;
         }
-        static bool CheckPassword(string password)
+        static bool CheckPassword(string pass)
         {
             bool hasDigit = false;
             bool hasLower = false;
             bool hasUpper = false;
             bool result = false;
 
-            if (password.Length > 8)
+            foreach (char item in pass)
             {
-                foreach (char item in password)
+
+
+                if (char.IsDigit(item))
                 {
-
-                    if (char.IsDigit(item))
-                    {
-                        hasDigit = true;
-                    }
-                    else if (char.IsLower(item))
-                    {
-                        hasLower = true;
-                    }
-                    else if (char.IsUpper(item))
-                    {
-                        hasUpper = true;
-                    }
-
-                    result = hasDigit && hasLower && hasUpper;
-                    if (result)
-                    {
-                        break;
-                    }
+                    hasDigit = true;
                 }
+                else if (char.IsLower(item))
+                {
+                    hasLower = true;
+                }
+                else if (char.IsUpper(item))
+                {
+                    hasUpper = true;
+                }
+                result = hasDigit && hasLower && hasUpper;
+                if (result)
+                {
+                    break;
+                }
+
             }
             return result;
+        }
+        static bool EmailChecker(string symbol)
+        {
+            if (symbol.Contains('@'))
+            {
+                return true;
+
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("use @ symbol");
+                return false;
+            }
+        }
+        public static void Logout()
+        {
+            MenuService.ProgramService();
+        }
+
+        public static void ProgramService()
+        {
+
+            char UserServiceSelect;
+            Console.ForegroundColor = ConsoleColor.Green;
+            do
+            {
+                Console.WriteLine("1. Registration");
+                Console.WriteLine("2. Login");
+                Console.WriteLine("3. Find User");
+                Console.WriteLine("0. Exit");
+            selection:
+                UserServiceSelect = Console.ReadKey().KeyChar;
+                Console.Clear();
+                Console.WriteLine();
+                switch (UserServiceSelect)
+                {
+                    case '1':
+                        MenuService.Registration();
+                        Console.Clear();
+                        break;
+                    case '2':
+                        MenuService.Login();
+                        Console.Clear();
+                        break;
+                    case '3':
+                        MenuService.FindUser();
+                        Console.Clear();
+                        break;
+                    default:
+                        Console.WriteLine("Please choose correct number");
+                        Console.Clear();
+                        goto selection;
+                }
+            } while (UserServiceSelect != '0');
+        }
+
+
+
+        public static void AllServicess()
+        {
+
+            char BankServiceSelect;
+            Console.ForegroundColor = ConsoleColor.Green;
+
+            do
+            {
+                Console.WriteLine("1. Check balance");
+                Console.WriteLine("2. Top up balance");
+                Console.WriteLine("3. Change password");
+                Console.WriteLine("4. Bank user list");
+                Console.WriteLine("5. Block user");
+                Console.WriteLine("6. Logout");
+            selection1:
+                BankServiceSelect = Console.ReadKey().KeyChar;
+                Console.Clear();
+                Console.WriteLine();
+                switch (BankServiceSelect)
+                {
+                    case '1':
+                        MenuService.CheckBalans();
+                        Console.Clear();
+                        break;
+                    case '2':
+                        MenuService.TopUpBalance();
+                        Console.Clear();
+                        break;
+                    case '3':
+                        MenuService.ChangePassword();
+                        Console.Clear();
+                        break;
+                    case '4':
+                        MenuService.UserList();
+                        Console.Clear();
+                        break;
+                    case '5':
+                        MenuService.BlockUser();
+                        Console.Clear();
+                        break;
+                    case '6':
+                        MenuService.Logout();
+                        Console.Clear();
+                        break;
+                    default:
+                        Console.WriteLine("Please choose correct number");
+                        Console.Clear();
+                        goto selection1;
+                }
+            } while (BankServiceSelect != '0');
         }
     }
 }

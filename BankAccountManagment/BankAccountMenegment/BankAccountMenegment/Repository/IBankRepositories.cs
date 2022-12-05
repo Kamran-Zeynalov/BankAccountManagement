@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 
 namespace BankAccountMenegment.Repository
 {
-    internal interface IBankRepository
+    internal interface IBankRepositories
     {
-        public Bank Bank { get; }
-        void CheckBalance(User user);
-        void TopUpBalance(User user);
-        string ChangePassword(User user, string password2);
         void BankUserList();
         bool BlockUser(User user);
+        string ChangePassword(User user, string newPassword);
+        void CheckBalance(double balance);
+        void ToUpBalance(User user, double amount);
         bool LogOut(User user);
 
     }

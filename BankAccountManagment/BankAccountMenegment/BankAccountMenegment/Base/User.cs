@@ -10,21 +10,7 @@ namespace BankAccountMenegment.Base
 {
     internal class User
     {
-        public int Id;
-        int _count;
-        string _name;
-        string _surName;
-        string _email;
-        double _balance;
-        string _password;
-        public bool IsAdmin;
-        public bool IsBlocked;
-        public bool IsLogged;
-
-        public User()
-        {
-            _count = 1342;
-        }
+        protected string _name;
         public string Name
         {
             get
@@ -33,40 +19,28 @@ namespace BankAccountMenegment.Base
             }
             set
             {
-                if (value.Length >= 3)
+                if (value.Length > 2)
                 {
                     _name = value;
                 }
             }
         }
-        public string SurName
+        protected string _surname;
+        public string Surname
         {
             get
             {
-                return _surName;
+                return _surname;
             }
             set
             {
-                if (value.Length >= 3)
+                if (value.Length > 2)
                 {
-                    _surName = value;
+                    _surname = value;
                 }
             }
         }
-        public string Email
-        {
-            get
-            {
-                return _email;
-            }
-            set
-            {
-                if (CheckEmail(value))
-                {
-                    _email = value;
-                }
-            }
-        }
+        string _password;
         public string Password
         {
             get
@@ -79,56 +53,67 @@ namespace BankAccountMenegment.Base
                 {
                     _password = value;
                 }
+
             }
         }
 
-        public double Balance
+        public int Id;
+
+        public bool IsAdmin;
+        public bool IsBlocked;
+        public bool IsLogged;
+        public double Balance;
+        static int count;
+
+        protected string _email;
+        public string Email
         {
             get
             {
-                return _balance;
+                return _email;
             }
             set
             {
-                _balance = value;
+                if (EmailChecker(value))
+                {
+                    _email = value;
+                }
             }
         }
 
-        public User(string name, string surName, string email, string password, bool isAdmin = false)
-        {
 
+
+
+        static User()
+        {
+            count = 0;
+        }
+
+        public User(string name, string surname, string password, string email, bool isadmin)
+        {
             Name = name;
-            SurName = surName;
-            Email = email;
+            Surname = surname;
             Password = password;
-            Id = ++_count;
-            IsAdmin = false;
+            Email = email;
             IsBlocked = false;
+            IsAdmin = isadmin;
             IsLogged = false;
+            Balance = default;
+            Id = ++count;
+
 
         }
 
-
-        static bool CheckEmail(string email)
-        {
-            if (email.Contains("@"))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        static bool CheckPassword(string password)
+        public static bool CheckPassword(string pw)
         {
             bool hasDigit = false;
             bool hasLower = false;
             bool hasUpper = false;
             bool result = false;
 
-            foreach (char item in password)
+            foreach (char item in pw)
             {
+
 
                 if (char.IsDigit(item))
                 {
@@ -147,9 +132,27 @@ namespace BankAccountMenegment.Base
                 {
                     break;
                 }
+
             }
             return result;
         }
 
+        public static bool EmailChecker(string symble)
+        {
+            if (symble.Contains('@'))
+            {
+                return true;
+
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }

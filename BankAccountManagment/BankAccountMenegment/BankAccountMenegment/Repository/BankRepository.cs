@@ -7,47 +7,62 @@ using System.Threading.Tasks;
 
 namespace BankAccountMenegment.Repository
 {
-    internal class BankRepository : IBankRepository
+    internal class BankRepository : IBankRepositories
     {
         Bank _bank;
-        public Bank Bank { get => _bank; }
-        public BankRepository()
+        public Bank bank
         {
-            _bank = new Bank();
+            get
+            {
+                return _bank;
+            }
+        }
+
+        public BankRepository(Bank bank)
+        {
+            _bank = bank;
         }
         public void BankUserList()
         {
-            foreach (User user in _bank.Users)
+            foreach (User user in _bank.users)
             {
-                Console.WriteLine(user.Name, user.SurName);
+                Console.WriteLine(user.Name, user.Surname);
             }
         }
 
         public bool BlockUser(User user)
         {
-            return user.IsBlocked = true; 
+            user.IsBlocked = true;
+            return true;
         }
 
-        public string ChangePassword(User user, string password2)
+        public string ChangePassword(User user, string newPassword)
         {
-            user.Password = password2;
+            Console.WriteLine("Password Changed");
+            user.Password = newPassword;
             return user.Password;
         }
 
-        public void CheckBalance(User user)
+        public void CheckBalance(double balance)
         {
-            Console.WriteLine("Repooo");
-            Console.WriteLine(user.Balance);
+            Console.WriteLine(balance);
+            Thread.Sleep(2000);
         }
 
-        public void TopUpBalance(User user)
+        public void ToUpBalance(User user, double amount)
         {
-            Console.WriteLine(user.Balance);
+            user.Balance += amount;
+            Console.WriteLine($"New Balance: {user.Balance}");
         }
 
         public bool LogOut(User user)
         {
             return user.IsLogged = false;
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
         }
     }
 }
