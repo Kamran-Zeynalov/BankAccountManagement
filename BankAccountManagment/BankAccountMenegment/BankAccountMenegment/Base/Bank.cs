@@ -18,11 +18,6 @@ namespace BankAccountMenegment.Base
         {
             Id = ++count;
         }
-        static Bank()
-        {
-            count = 0;
-        }
-
     }
 }
 

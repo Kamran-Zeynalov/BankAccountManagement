@@ -24,6 +24,7 @@ namespace BankAccountMenegment.Service
             {
                 if (gmail.Email == email)
                 {
+                    Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine("This email had been registered ");
                     Thread.Sleep(2000);
                     Console.Clear();
@@ -79,17 +80,6 @@ namespace BankAccountMenegment.Service
             _repository.FindUser(exicted);
             return false;
         }
-        //bool EmailPassFind(string email, string password)
-        //{
-        //    foreach (User user in bank.users)
-        //    {
-        //        if (user.Email == email && user.Password == password)
-        //        {
-        //            return true;
-        //        }
-        //    }
-        //    return false;
-        //}
 
     }
 }

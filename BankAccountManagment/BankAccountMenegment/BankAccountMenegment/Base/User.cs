@@ -100,8 +100,6 @@ namespace BankAccountMenegment.Base
             IsLogged = false;
             Balance = default;
             Id = ++count;
-
-
         }
 
         public static bool CheckPassword(string pw)
@@ -150,6 +148,7 @@ namespace BankAccountMenegment.Base
             }
         }
 
+    
         public override string ToString()
         {
             return base.ToString();
