@@ -12,7 +12,7 @@ namespace BankAccountMenegment.Service
     {
 
         readonly IBankRepositories _repository;
-        Bank bank;
+        Bank bank; 
 
         public BankService(Bank bank)
         {
