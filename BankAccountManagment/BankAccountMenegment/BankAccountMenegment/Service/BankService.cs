@@ -13,6 +13,7 @@ namespace BankAccountMenegment.Service
 
         readonly IBankRepositories _repository;
         Bank bank;
+
         public BankService(Bank bank)
         {
             this.bank = bank;
@@ -22,7 +23,6 @@ namespace BankAccountMenegment.Service
         public BankService()
         {
         }
-
 
         public bool CheckBalance(string password)
         {
@@ -52,8 +52,6 @@ namespace BankAccountMenegment.Service
             return false;
         }
 
-
-
         public bool ChangePassword(string currentpas, string newPass)
         {
             User exicted = default;
@@ -69,7 +67,6 @@ namespace BankAccountMenegment.Service
             return false;
         }
 
-
         public bool BankUserList(string email)
         {
             User exicted;
@@ -81,8 +78,8 @@ namespace BankAccountMenegment.Service
                     {
                         exicted = item;
                         _repository.BankUserList();
-                        return true;
                         Thread.Sleep(2000);
+                        return true;
                     }
                     return false;
                 }
@@ -90,17 +87,25 @@ namespace BankAccountMenegment.Service
             return false;
         }
 
-
         public bool BlockUser(string email)
         {
             User exicted;
             foreach (User item in bank.users)
             {
-                if (item.Email == email)
+                if (item.Email == email && !item.IsAdmin)
                 {
                     exicted = item;
                     _repository.BlockUser(exicted);
                     Console.WriteLine($"Has Been Blocked: {item.Name}");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    return true;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("There is no such email among USERS. Admin cannot be blocked");
+                    Thread.Sleep(1500);
+                    Console.ForegroundColor = ConsoleColor.Green;
                     return true;
                 }
             }

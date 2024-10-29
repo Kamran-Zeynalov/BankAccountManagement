@@ -30,22 +30,22 @@ namespace BankAccountMenegment.Repository
             Array.Resize(ref _bank.users, _bank.users.Length + 1);
 
             _bank.users[_bank.users.Length - 1] = user;
-
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("You have successfully registered");
             Thread.Sleep(1000);
-
-
         }
 
         public void UserLogin(User user)
         {
             user.IsLogged = true;
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine($"User:{user.Name} {user.Surname}");
             Thread.Sleep(1000);
         }
 
         public void FindUser(User user)
         {
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine($"User: {user.Name} {user.Surname}");
             Thread.Sleep(1000);
         }

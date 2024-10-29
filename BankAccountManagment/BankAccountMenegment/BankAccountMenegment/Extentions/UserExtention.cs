@@ -10,7 +10,7 @@ namespace BankAccountMenegment.Extentions
     public static class UserExtention
     {
 
-        public static void CheckName(string value)
+        public static void CheckName(out string value)
         {
             do
             {
@@ -20,7 +20,7 @@ namespace BankAccountMenegment.Extentions
                 value = Console.ReadLine();
             } while (!CheckLength(value));
         }
-        public static void CheckSurname(string value)
+        public static void CheckSurname(out string value)
         {
             do
             {
@@ -30,7 +30,7 @@ namespace BankAccountMenegment.Extentions
                 value = Console.ReadLine();
             } while (!CheckLength(value));
         }
-        public static void CheckEmail(string value)
+        public static void CheckEmail(out string value)
         {
             do
             {
@@ -40,7 +40,7 @@ namespace BankAccountMenegment.Extentions
                 value = Console.ReadLine();
             } while (!Checksymbol(value));
         }
-        public static void CheckPassword(string value)
+        public static void CheckPassword(out string value)
         {
             do
             {
@@ -50,7 +50,7 @@ namespace BankAccountMenegment.Extentions
                 value = ReadPassword();
             } while (!CheckPass(value));
         }
-        public static void IsAdmin(bool role, char result)
+        public static void IsAdmin(out bool role, out char result)
         {
             do
             {
@@ -60,7 +60,7 @@ namespace BankAccountMenegment.Extentions
                 role = char.TryParse(Console.ReadLine(), out result);
             } while (!role);
         }
-
+         
 
 
         #region Private Extentions
@@ -84,7 +84,7 @@ namespace BankAccountMenegment.Extentions
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Green;
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Use @ symbol");
                 return false;
             }
@@ -121,7 +121,7 @@ namespace BankAccountMenegment.Extentions
             }
             return result;
         }
-        private static string ReadPassword()
+        public static string ReadPassword()
         {
             string password = "";
             ConsoleKeyInfo keyInfo;

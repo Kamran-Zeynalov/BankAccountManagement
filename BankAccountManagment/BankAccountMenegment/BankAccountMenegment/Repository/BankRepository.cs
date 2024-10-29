@@ -26,8 +26,10 @@ namespace BankAccountMenegment.Repository
         {
             foreach (User user in _bank.users)
             {
+                Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine(user.Name, user.Surname);
             }
+                Console.ForegroundColor = ConsoleColor.Green;
         }
 
         public bool BlockUser(User user)

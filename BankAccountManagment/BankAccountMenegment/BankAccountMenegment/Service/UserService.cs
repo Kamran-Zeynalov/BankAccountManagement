@@ -24,7 +24,7 @@ namespace BankAccountMenegment.Service
             {
                 if (gmail.Email == email)
                 {
-                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("This email had been registered ");
                     Thread.Sleep(2000);
                     Console.Clear();
@@ -73,6 +73,7 @@ namespace BankAccountMenegment.Service
             }
             if (exicted == null)
             {
+
                 Console.WriteLine("--This email is not registered--");
                 return false;
             }

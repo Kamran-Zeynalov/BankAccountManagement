@@ -30,18 +30,14 @@ namespace BankAccountMenegment.Service
         }
         public static void Registration()
         {
-
-            string name = String.Empty;
-            string surname = String.Empty;
-            string email = String.Empty;
-            string password = String.Empty;
-            bool role = false;
-            char result = ' ';
-            UserExtention.CheckName(name);
-            UserExtention.CheckSurname(surname);
-            UserExtention.CheckEmail(email);
-            UserExtention.CheckPassword(password);
-            UserExtention.IsAdmin(role, result);
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("Registration");
+            Console.ForegroundColor = ConsoleColor.Green;
+            UserExtention.CheckName(out string name);
+            UserExtention.CheckSurname(out string surname);
+            UserExtention.CheckEmail(out string email);
+            UserExtention.CheckPassword(out string password);
+            UserExtention.IsAdmin(out bool role, out char result);
 
             if (result.ToString().ToLower() == 'y'.ToString())
             {
@@ -58,7 +54,9 @@ namespace BankAccountMenegment.Service
 
         public static bool Login()
         {
-
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("Login");
+            Console.ForegroundColor = ConsoleColor.Green;
             string email;
             string password;
 
@@ -68,14 +66,14 @@ namespace BankAccountMenegment.Service
                 Console.Write("Email: ");
                 Console.ForegroundColor = ConsoleColor.White;
                 email = Console.ReadLine();
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.Write("Password: ");
                 Console.ForegroundColor = ConsoleColor.White;
-                password = Console.ReadLine();
+                password = UserExtention.ReadPassword();
             } while (_accountservice.UserLogin(email, password));
 
             return true;
         }
-
         public static bool FindUser()
         {
             Console.ForegroundColor = ConsoleColor.Green;
@@ -88,7 +86,6 @@ namespace BankAccountMenegment.Service
             }
             return false;
         }
-
         public static void ChangePassword()
         {
             string password;
@@ -105,23 +102,31 @@ namespace BankAccountMenegment.Service
             } while (!_bankservices.ChangePassword(password, newpassword));
 
         }
+
+
+
+
+
+
         public static void CheckBalans()
         {
             string password;
             string balance;
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Enter password to view balance");
-            password = Console.ReadLine();
-            Console.WriteLine("    Balance:");
+            Console.ForegroundColor = ConsoleColor.White;
+            password = UserExtention.ReadPassword();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("Balance: ");
 
             if (_bankservices.CheckBalance(password))
             {
                 Console.Write("Loading");
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
                 Console.Write(" . ");
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
                 Console.Write(" . ");
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
                 Console.Write(" . ");
             }
           
@@ -131,13 +136,15 @@ namespace BankAccountMenegment.Service
         {
             string password;
             double newBalance;
-       
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Enter password to top up balance");
+                Console.WriteLine("Enter password to top up balance:");
+                Console.ForegroundColor = ConsoleColor.White;
                 password = Console.ReadLine();
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("How much you want to increase");
+                Console.ForegroundColor = ConsoleColor.White;
                 newBalance = Convert.ToDouble(Console.ReadLine());
-
+            Console.ForegroundColor = ConsoleColor.Green;
             if (_bankservices.TopUpBalance(password, newBalance))
             {
                 Console.Write("Loading");
@@ -149,16 +156,16 @@ namespace BankAccountMenegment.Service
                 Console.Write("  .");
             }
         }
+
         public static void UserList()
         {
             string email;
             do
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("admin's email");
+                Console.Write("admin's email: ");
+                Console.ForegroundColor = ConsoleColor.White;
                 email = Console.ReadLine();
-
-
             } while (!_bankservices.BankUserList(email));
 
         }
@@ -169,13 +176,13 @@ namespace BankAccountMenegment.Service
             do
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Enter the slant you want to block");
+                Console.Write("Enter the email you want to block: ");
+                Console.ForegroundColor = ConsoleColor.White;
                 email = Console.ReadLine();
             } while (!_bankservices.BlockUser(email));
         }
 
        
-     
         public static void Logout()
         {
             MenuService.ProgramService();
@@ -183,21 +190,18 @@ namespace BankAccountMenegment.Service
 
         public static void ProgramService()
         {
-
             char UserServiceSelect;
             selection:
-            Console.ForegroundColor = ConsoleColor.Green;
             do
             {
+            Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("1. Registration");
                 Console.WriteLine("2. Login");
                 Console.WriteLine("3. Find User");
                 Console.WriteLine("0. Exit");
                 UserServiceSelect = Console.ReadKey().KeyChar;
                 Console.Clear();
-                Console.ForegroundColor= ConsoleColor.Blue;
-                Console.WriteLine("Registration");
-                Console.ForegroundColor = ConsoleColor.Green;
+              
                 switch (UserServiceSelect)
                 {
                     case '1':
